@@ -71,7 +71,15 @@ class GameScene: SKScene{
     
     override func update(_ currentTime: TimeInterval)
     {
-        //if trashSprite.position.y >=
+        if trashSprite.position.y >= bioBin.position.y + trashSprite.size.height/2
+        {
+            isInBin = true
+            setRandomTrash()
+        }
+        else
+        {
+            isInBin = false
+        }
     }
     
     func createScore()
@@ -92,18 +100,26 @@ class GameScene: SKScene{
     func setUpTrash()
     {
         trashSprite.size = CGSize(width: 150, height: 150)
-        let trashXPos1 = frame.minX + 50
-        let trashXPos2 = frame.maxX - 30
-        let trashYPos = frame.minY + 100
-        setRandomTrash()
+        let trashXPos = self.frame.minX + 50
+        let trashYPos = self.frame.minY + 100
+        trashSprite.zPosition = 5
+        trashSprite.anchorPoint = CGPoint(x: trashSprite.frame.midX*1.5, y: trashSprite.frame.midY)
+        trashSprite.position = CGPoint(x: trashXPos, y: trashYPos)
         addChild(trashSprite)
-        
+        setRandomTrash()
+    }
+    
+    func moveTrash()
+    {
+        let trashXPos1 = self.frame.minX - 50
+        let trashXPos2 = self.frame.maxX - 100
+        let trashYPos = self.frame.minY + 100
         let trashMoveRight = SKAction.move(to: CGPoint(x: trashXPos2, y: trashYPos), duration: 2.0)
         let trashMoveLeft = SKAction.move(to: CGPoint(x: trashXPos1, y: trashYPos), duration: 2.0)
         let trashMoveArray = SKAction.sequence([trashMoveRight, trashMoveLeft])
         let trashMovement = SKAction.repeatForever(trashMoveArray)
-        trashSprite.position = CGPoint(x: trashXPos1, y: trashYPos)
-        trashSprite.run(trashMovement)
+        let trashWaitAndMove = SKAction.sequence([SKAction.wait(forDuration: 0.1), trashMovement])
+        trashSprite.run(trashWaitAndMove)
     }
     
     func setUpBinSprites()
@@ -114,7 +130,7 @@ class GameScene: SKScene{
         {
             binSprites[i].size = CGSize(width: 200, height: 200)
             let xPos = frame.width/5*CGFloat(i)
-            binSprites[i].anchorPoint = CGPoint.zero
+            binSprites[i].anchorPoint = CGPoint(x: binSprites[i].frame.midX, y: binSprites[i].frame.midY)
             binSprites[i].position = CGPoint(x: xPos - 65, y: frame.maxY - 400)
             binSprites[i].zPosition = 1
             addChild(binSprites[i])
@@ -125,9 +141,7 @@ class GameScene: SKScene{
     {
         trashSprite.removeAllActions()
         
-        let moveUp = SKAction.move(to: CGPoint(x: trashSprite.position.x, y: bioBin.position.y + 100), duration: 1.0)
-        //let moveDown = SKAction.move(to: CGPoint(x: trashSprite.position.x, y: frame.maxY - bioBin.size.height - 100), duration: 0.5)
-        //let throwSequence = SKAction.sequence([moveUp, moveDown])
+        let moveUp = SKAction.move(to: CGPoint(x: trashSprite.position.x, y: bioBin.position.y + 100), duration: 0.5)
         trashSprite.run(moveUp)
     }
     
@@ -135,18 +149,22 @@ class GameScene: SKScene{
         
         let xSize = CGFloat(metalBin.size.width/3)
         
-        if(trashSprite.position.x >= metalBin.position.x + xSize && trashSprite.position.x <= metalBin.position.x + 2*xSize)
+        if(trashSprite.position.x >= metalBin.frame.minX && trashSprite.position.x <= metalBin.frame.minX + xSize)
         {
             print("touched metal bin")
             if(trashSprite.texture == hangerTexture || trashSprite.texture == sodaTexture)
             {
                 incrementScore()
+
                 //setRandomTrash()
             } else{
-                decrementLives()}
+                decrementLives()
+                
             }
-        
-        else if (trashSprite.position.x >= bioBin.position.x + xSize && trashSprite.position.x <= bioBin.position.x + 2*xSize)
+            } else if (trashSprite.position.x >= bioBin.position.x + xSize && trashSprite.position.x <= bioBin.position.x + 2*xSize){
+            
+        }
+        else if (trashSprite.position.x >= bioBin.frame.minX && trashSprite.position.x <= bioBin.frame.minX + xSize)
         {
             print("touched bio bin")
             if(trashSprite.texture == appleCoreTexture || trashSprite.texture == bananaTexture)
@@ -154,10 +172,15 @@ class GameScene: SKScene{
                 incrementScore()
                 //setRandomTrash()
             }else{
-                decrementLives()}
+                decrementLives()
+                
+            }
         }
             
-        else if (trashSprite.position.x >= glassBin.position.x + xSize && trashSprite.position.x <= glassBin.position.x + 2*xSize)
+        else if (trashSprite.position.x >= glassBin.position.x + xSize && trashSprite.position.x <= glassBin.position.x + 2*xSize){
+            
+        }
+        else if (trashSprite.position.x >= glassBin.frame.minX && trashSprite.position.x <= glassBin.frame.minX + xSize)
         {
             print("touched glass bin")
             if(trashSprite.texture == glassJarTexture || trashSprite.texture == wineBottleTexture)
@@ -165,10 +188,15 @@ class GameScene: SKScene{
                 incrementScore()
                 //setRandomTrash()
             }else{
-                decrementLives()}
+                decrementLives()
+                
+            }
         }
             
-        else if (trashSprite.position.x >= paperBin.position.x + xSize && trashSprite.position.x <= paperBin.position.x + 2*xSize)
+        else if (trashSprite.position.x >= paperBin.position.x + xSize && trashSprite.position.x <= paperBin.position.x + 2*xSize){
+            
+        }
+        else if (trashSprite.position.x >= paperBin.frame.minX && trashSprite.position.x <= paperBin.frame.minX + xSize)
         {
             print("touched paper bin")
             if(trashSprite.texture == boxTexture || trashSprite.texture == newsTexture)
@@ -179,7 +207,10 @@ class GameScene: SKScene{
                 decrementLives()}
         }
             
-        else if (trashSprite.position.x >= plasticBin.position.x + xSize && trashSprite.position.x <= plasticBin.position.x + 2*xSize)
+        else if (trashSprite.position.x >= plasticBin.position.x + xSize && trashSprite.position.x <= plasticBin.position.x + 2*xSize){
+            
+        }
+        else if (trashSprite.position.x >= plasticBin.frame.minX && trashSprite.position.x <= plasticBin.frame.minX + xSize)
         {
             print("touched plastic bin")
             if(trashSprite.texture == waterBottleTexture || trashSprite.texture == plasticRingsTexture)
@@ -187,19 +218,25 @@ class GameScene: SKScene{
                 incrementScore()
                 //setRandomTrash()
             }else{
-                decrementLives()}
+                decrementLives()
+                
+            }
             
         }
         
     }
     
-    
-    func setRandomTrash(){
-        trashSprite.position = CGPoint(x: frame.maxX/2 + 50, y: frame.minY + 100)
+
+   
+    func setRandomTrash()
+    {
+        trashSprite.position = CGPoint(x: frame.minX - 50, y: frame.minY + 100)
         
         let trashTextures = [sodaTexture, wineBottleTexture, newsTexture, hangerTexture, glassJarTexture, boxTexture, waterBottleTexture, bananaTexture, appleCoreTexture, plasticRingsTexture]
         let trashIndex = Int.random(in: 0..<trashTextures.count)
         trashSprite.texture = trashTextures[trashIndex]
+        
+        moveTrash()
     }
     
     func createLives(){
@@ -217,6 +254,7 @@ class GameScene: SKScene{
        
     }
 
-}
+
             
 
+}

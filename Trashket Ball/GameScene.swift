@@ -42,11 +42,25 @@ class GameScene: SKScene{
     let paperBin = SKSpriteNode(imageNamed: "paper-bin")
     let plasticBin = SKSpriteNode(imageNamed: "plastic-bin")
     
+    
+    let lives5Texture = SKTexture(imageNamed: "5Lives")
+    let lives4Texture = SKTexture(imageNamed: "4Lives")
+    let lives3Texture = SKTexture(imageNamed: "3Lives")
+    let lives2Texture = SKTexture(imageNamed: "2Lives")
+    let lives1Texture = SKTexture(imageNamed: "1Lives")
+    
+    var livesSprite = SKSpriteNode(imageNamed: "5Lives")
+    var lives = 5
+ 
+
+    
+    
     override func didMove(to view: SKView)
     {
         setUpTrash()
         setUpBinSprites()
         createScore()
+        createLives()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -62,7 +76,7 @@ class GameScene: SKScene{
     
     func createScore()
     {
-        scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
+        scoreLabel = SKLabelNode(fontNamed: "ArcadeClassic")
         scoreLabel.fontSize = 24
         scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 60)
         scoreLabel.text = "SCORE: 0"
@@ -117,8 +131,8 @@ class GameScene: SKScene{
         trashSprite.run(moveUp)
     }
     
-    func checkTrash()
-    {
+    func checkTrash(){
+        
         let xSize = CGFloat(metalBin.size.width/3)
         
         if(trashSprite.position.x >= metalBin.position.x + xSize && trashSprite.position.x <= metalBin.position.x + 2*xSize)
@@ -128,8 +142,10 @@ class GameScene: SKScene{
             {
                 incrementScore()
                 //setRandomTrash()
+            } else{
+                decrementLives()}
             }
-        }
+        
         else if (trashSprite.position.x >= bioBin.position.x + xSize && trashSprite.position.x <= bioBin.position.x + 2*xSize)
         {
             print("touched bio bin")
@@ -137,8 +153,10 @@ class GameScene: SKScene{
             {
                 incrementScore()
                 //setRandomTrash()
-            }
+            }else{
+                decrementLives()}
         }
+            
         else if (trashSprite.position.x >= glassBin.position.x + xSize && trashSprite.position.x <= glassBin.position.x + 2*xSize)
         {
             print("touched glass bin")
@@ -146,8 +164,10 @@ class GameScene: SKScene{
             {
                 incrementScore()
                 //setRandomTrash()
-            }
+            }else{
+                decrementLives()}
         }
+            
         else if (trashSprite.position.x >= paperBin.position.x + xSize && trashSprite.position.x <= paperBin.position.x + 2*xSize)
         {
             print("touched paper bin")
@@ -155,8 +175,10 @@ class GameScene: SKScene{
             {
                 incrementScore()
                 //setRandomTrash()
-            }
+            }else{
+                decrementLives()}
         }
+            
         else if (trashSprite.position.x >= plasticBin.position.x + xSize && trashSprite.position.x <= plasticBin.position.x + 2*xSize)
         {
             print("touched plastic bin")
@@ -164,16 +186,37 @@ class GameScene: SKScene{
             {
                 incrementScore()
                 //setRandomTrash()
-            }
+            }else{
+                decrementLives()}
+            
         }
+        
     }
     
-    func setRandomTrash()
-    {
+    
+    func setRandomTrash(){
         trashSprite.position = CGPoint(x: frame.maxX/2 + 50, y: frame.minY + 100)
         
         let trashTextures = [sodaTexture, wineBottleTexture, newsTexture, hangerTexture, glassJarTexture, boxTexture, waterBottleTexture, bananaTexture, appleCoreTexture, plasticRingsTexture]
         let trashIndex = Int.random(in: 0..<trashTextures.count)
         trashSprite.texture = trashTextures[trashIndex]
     }
+    
+    func createLives(){
+        livesSprite.anchorPoint = CGPoint(x: 0.0, y: 1.0)
+        livesSprite.position = CGPoint(x: frame.minX + 70
+            , y: frame.maxY)
+        livesSprite.size  = CGSize(width: 300, height: 250)
+        addChild(livesSprite)
+    }
+    
+    func decrementLives(){
+        let livesTextures = [lives1Texture, lives2Texture, lives3Texture, lives4Texture, lives5Texture]
+        lives -= 1
+        livesSprite.texture = livesTextures[lives - 1]
+       
+    }
+
 }
+            
+

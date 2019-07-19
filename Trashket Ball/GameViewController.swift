@@ -19,6 +19,7 @@ class GameViewController: UIViewController {
             // Load the SKScene from 'GameScene.sks'
             
             let scene = GameScene(size: view.bounds.size)
+            scene.viewController = self
             view.presentScene(scene)
             scene.scaleMode = .aspectFill
             

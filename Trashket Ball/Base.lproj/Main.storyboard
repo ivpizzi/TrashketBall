@@ -18,10 +18,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="u8z-zm-yhK">
             <objects>
-                <viewController id="IPp-TN-Bpo" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="IPp-TN-Bpo" customClass="HomeViewController" customModule="Trashket_Ball" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Hr-7V-GhY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -154,20 +154,83 @@
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="Trashket_Ball" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameViewController" id="BV1-FR-VrT" customClass="GameViewController" customModule="Trashket_Ball" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
+                    <connections>
+                        <segue destination="hhT-kA-gzr" kind="show" identifier="gameOver" id="9Ar-pQ-eJA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="77" y="114"/>
         </scene>
+        <!--GameOverViewController-->
+        <scene sceneID="H3G-94-nZM">
+            <objects>
+                <viewController storyboardIdentifier="GameOverViewController" title="GameOverViewController" id="hhT-kA-gzr" customClass="GameOverViewController" customModule="Trashket_Ball" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="138-kr-0vX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c25-ox-i5x">
+                                <rect key="frame" x="0.0" y="214" width="414" height="117"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="117" id="zzR-by-fe2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="KarmaticArcade" family="Karmatic Arcade" pointSize="52"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qJ-o2-44C">
+                                <rect key="frame" x="110" y="381" width="194" height="50"/>
+                                <fontDescription key="fontDescription" name="ArcadeClassic" family="ArcadeClassic" pointSize="37"/>
+                                <state key="normal" title="Home"/>
+                                <connections>
+                                    <segue destination="IPp-TN-Bpo" kind="show" id="j5M-sG-3iJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JTx-Ic-pHt">
+                                <rect key="frame" x="110" y="439" width="194" height="77"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="77" id="cm2-0C-eDm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ArcadeClassic" family="ArcadeClassic" pointSize="37"/>
+                                <state key="normal" title="PLAY AGAIN"/>
+                                <connections>
+                                    <segue destination="BV1-FR-VrT" kind="show" identifier="" id="c6I-ZF-d3q"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="JTx-Ic-pHt" firstAttribute="trailing" secondItem="0qJ-o2-44C" secondAttribute="trailing" id="2kc-ve-PS7"/>
+                            <constraint firstItem="JTx-Ic-pHt" firstAttribute="top" secondItem="0qJ-o2-44C" secondAttribute="bottom" constant="8" symbolic="YES" id="K0e-ZV-psE"/>
+                            <constraint firstItem="c25-ox-i5x" firstAttribute="top" secondItem="PdL-DY-w4k" secondAttribute="top" constant="170" id="NRo-Xo-Za2"/>
+                            <constraint firstItem="0qJ-o2-44C" firstAttribute="top" secondItem="c25-ox-i5x" secondAttribute="bottom" constant="50" id="NfR-Ux-ZGX"/>
+                            <constraint firstItem="JTx-Ic-pHt" firstAttribute="leading" secondItem="0qJ-o2-44C" secondAttribute="leading" id="UP2-O7-7Fd"/>
+                            <constraint firstItem="c25-ox-i5x" firstAttribute="leading" secondItem="PdL-DY-w4k" secondAttribute="leading" id="dCw-bf-v8b"/>
+                            <constraint firstItem="0qJ-o2-44C" firstAttribute="leading" secondItem="PdL-DY-w4k" secondAttribute="leading" constant="110" id="lBn-bI-asF"/>
+                            <constraint firstItem="c25-ox-i5x" firstAttribute="trailing" secondItem="PdL-DY-w4k" secondAttribute="trailing" id="q87-be-Vj8"/>
+                            <constraint firstItem="0qJ-o2-44C" firstAttribute="centerX" secondItem="c25-ox-i5x" secondAttribute="centerX" id="wKY-lA-LWN"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PdL-DY-w4k"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JfU-sd-mP4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="829" y="114"/>
+        </scene>
     </scenes>
     <resources>
         <image name="playButton" width="300" height="150"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="a0e-wZ-jRV"/>
+        <segue reference="j5M-sG-3iJ"/>
+    </inferredMetricsTieBreakers>
 </document>

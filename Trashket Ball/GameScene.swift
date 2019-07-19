@@ -11,9 +11,13 @@ import GameplayKit
 
 class GameScene: SKScene{
     
+    var viewController: UIViewController?
+    
     var isInBin = false
     
     var scoreLabel: SKLabelNode!
+    var gameOverLabel = SKLabelNode()
+    var gameOver = false
     
     var score = 0
     {
@@ -51,9 +55,6 @@ class GameScene: SKScene{
     
     var livesSprite = SKSpriteNode(imageNamed: "5Lives")
     var lives = 5
- 
-
-    
     
     override func didMove(to view: SKView)
     {
@@ -79,6 +80,12 @@ class GameScene: SKScene{
         else
         {
             isInBin = false
+        }
+        
+        if gameOver
+        {
+            gameOver = false
+            self.viewController!.performSegue(withIdentifier: "gameOver", sender: viewController)
         }
     }
     
@@ -161,8 +168,6 @@ class GameScene: SKScene{
                 decrementLives()
                 
             }
-            } else if (trashSprite.position.x >= bioBin.position.x + xSize && trashSprite.position.x <= bioBin.position.x + 2*xSize){
-            
         }
         else if (trashSprite.position.x >= bioBin.frame.minX && trashSprite.position.x <= bioBin.frame.minX + xSize)
         {
@@ -176,10 +181,6 @@ class GameScene: SKScene{
                 
             }
         }
-            
-        else if (trashSprite.position.x >= glassBin.position.x + xSize && trashSprite.position.x <= glassBin.position.x + 2*xSize){
-            
-        }
         else if (trashSprite.position.x >= glassBin.frame.minX && trashSprite.position.x <= glassBin.frame.minX + xSize)
         {
             print("touched glass bin")
@@ -192,10 +193,6 @@ class GameScene: SKScene{
                 
             }
         }
-            
-        else if (trashSprite.position.x >= paperBin.position.x + xSize && trashSprite.position.x <= paperBin.position.x + 2*xSize){
-            
-        }
         else if (trashSprite.position.x >= paperBin.frame.minX && trashSprite.position.x <= paperBin.frame.minX + xSize)
         {
             print("touched paper bin")
@@ -205,10 +202,6 @@ class GameScene: SKScene{
                 //setRandomTrash()
             }else{
                 decrementLives()}
-        }
-            
-        else if (trashSprite.position.x >= plasticBin.position.x + xSize && trashSprite.position.x <= plasticBin.position.x + 2*xSize){
-            
         }
         else if (trashSprite.position.x >= plasticBin.frame.minX && trashSprite.position.x <= plasticBin.frame.minX + xSize)
         {
@@ -221,13 +214,13 @@ class GameScene: SKScene{
                 decrementLives()
                 
             }
-            
         }
-        
+        else
+        {
+            decrementLives()
+        }
     }
     
-
-   
     func setRandomTrash()
     {
         trashSprite.position = CGPoint(x: frame.minX - 50, y: frame.minY + 100)
@@ -249,12 +242,14 @@ class GameScene: SKScene{
     
     func decrementLives(){
         let livesTextures = [lives1Texture, lives2Texture, lives3Texture, lives4Texture, lives5Texture]
-        lives -= 1
-        livesSprite.texture = livesTextures[lives - 1]
-       
+        if lives <= 1
+        {
+            gameOver = true
+        }
+        else
+        {
+            lives -= 1
+            livesSprite.texture = livesTextures[lives - 1]
+        }
     }
-
-
-            
-
 }

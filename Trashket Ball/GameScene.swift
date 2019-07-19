@@ -62,6 +62,7 @@ class GameScene: SKScene{
         setUpBinSprites()
         createScore()
         createLives()
+        makeBackground()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -93,6 +94,7 @@ class GameScene: SKScene{
     {
         scoreLabel = SKLabelNode(fontNamed: "ArcadeClassic")
         scoreLabel.fontSize = 24
+        scoreLabel.fontColor = UIColor.white
         scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 60)
         scoreLabel.text = "SCORE: 0"
         scoreLabel.fontColor = UIColor.black
@@ -251,5 +253,16 @@ class GameScene: SKScene{
             lives -= 1
             livesSprite.texture = livesTextures[lives - 1]
         }
+    }
+    
+    func makeBackground()
+    {
+        let texture = SKTexture(imageNamed: "skyy")
+        let background = SKSpriteNode(texture: texture)
+        background.anchorPoint = CGPoint.zero
+        background.size = CGSize(width: frame.size.width, height: texture.size().height*(UIScreen.main.bounds.width/UIScreen.main.bounds.height))
+        background.position = CGPoint(x: frame.minX, y: frame.minY)
+        background.zPosition = -10
+        addChild(background)
     }
 }
